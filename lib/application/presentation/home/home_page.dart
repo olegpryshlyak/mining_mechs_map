@@ -114,6 +114,7 @@ class TileWidget extends StatelessWidget {
       onEnter: (event) => context.read<HomeCubit>().setHoveringCoordinates(x, y, valueToName(value)),
       child: ColoredBox(
         color: valueToColor(value),
+        child: Center(child: Text(value.toString(), style: context.theme.textTheme.labelSmall,),),
       ),
     );
   }
@@ -122,8 +123,21 @@ class TileWidget extends StatelessWidget {
 Color valueToColor(final double value) =>
     {
       0.0: Colors.black12, // empty
-      1.0: Colors.brown, // earth
+      1.0: Colors.brown, // dirt
+      2.0: Colors.brown,
+      4.0: Colors.black38,
+      5.0: Colors.black45,
       6.0: Colors.grey, // concrete
+      10.0: Colors.blueGrey,
+      11.0: Colors.black87,
+      12.0: Colors.orange,
+      13.0: Colors.white,
+      17.0: Colors.amber,
+      18.0: Colors.purpleAccent,
+      19.0: Colors.lightGreenAccent,
+      20.0: Colors.cyanAccent,
+      30.0: Colors.deepOrange,
+      33.0: Colors.greenAccent,
       34.0: Colors.yellow, // pipe
       35.0: Colors.yellow, // pipe
       36.0: Colors.yellow, // pipe
@@ -136,8 +150,21 @@ Color valueToColor(final double value) =>
 String valueToName(final double value) =>
     {
       0.0: 'Empty',
-      1.0: 'Earth',
+      1.0: 'Dirt',
+      2.0: 'Mine base',
+      4.0: 'Small rock',
+      5.0: 'Big rock',
       6.0: 'Concrete',
+      10.0: 'Trash',
+      11.0: 'Tin',
+      12.0: 'Copper',
+      13.0: 'Silver',
+      17.0: 'Gold',
+      18.0: 'Amethyst',
+      19.0: 'Uranium',
+      20.0: 'Diamond',
+      30.0: 'Dynamite',
+      33.0: 'Confetti',
       34.0: 'Pipe',
       35.0: 'Pipe',
       36.0: 'Pipe',
