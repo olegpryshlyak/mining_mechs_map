@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
     final XFile? file = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
     final saveString = await file?.readAsString();
     if (saveString != null && context.mounted) {
-      context.read<HomeCubit>().loadSaveFile(saveString);
+      context.read<HomeCubit>().loadSaveFile(saveString.trim());
     }
   }
 
