@@ -40,6 +40,16 @@ class HomePage extends StatelessWidget {
               child: Row(
                 children: [
                   ElevatedButton(onPressed: () => _readSaveFile(context), child: const Text('Load save')),
+                  const Spacer(),
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) => state.currentCoordinates == null
+                        ? const SizedBox.shrink()
+                        : Text(
+                            'Current coordinates: ${state.currentCoordinates}',
+                            style: context.theme.textTheme.headlineSmall!
+                                .copyWith(color: context.theme.colorScheme.onPrimary),
+                          ),
+                  )
                 ],
               ),
             ),
@@ -77,9 +87,13 @@ class MapWidget extends StatelessWidget {
         itemBuilder: (final context, final index) {
           int gridStateLength = map.mapWidth.toInt();
           int x, y = 0;
-          x = (index / gridStateLength).floor();
-          y = (index % gridStateLength);
-          return TileWidget(value: map.mapInfo[y][x]);
+          y = (index / gridStateLength).floor();
+          x = (index % gridStateLength);
+          return TileWidget(
+            value: map.mapInfo[x][y],
+            x: x,
+            y: y,
+          );
         },
         itemCount: (map.mapWidth * map.mapHeight).toInt(),
       ),
@@ -89,19 +103,24 @@ class MapWidget extends StatelessWidget {
 
 class TileWidget extends StatelessWidget {
   final double value;
+  final int x;
+  final int y;
 
-  const TileWidget({super.key, required this.value});
+  const TileWidget({super.key, required this.value, required this.x, required this.y});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 2,
-      width: 2,
-      color: valueToColor(value),
-      child: Center(
-        child: Text(
-          value.toString(),
-          style: context.theme.textTheme.labelSmall,
+    return MouseRegion(
+      onEnter: (event) => context.read<HomeCubit>().setHoveringCoordinates(x, y, valueToName(value)),
+      child: Container(
+        height: 2,
+        width: 2,
+        color: valueToColor(value),
+        child: Center(
+          child: Text(
+            value.toString(),
+            style: context.theme.textTheme.labelSmall,
+          ),
         ),
       ),
     );
@@ -120,3 +139,16 @@ Color valueToColor(final double value) =>
       38.0: Colors.deepPurpleAccent, // mine
     }[value] ??
     Colors.red;
+
+String valueToName(final double value) =>
+    {
+      0.0: 'Empty',
+      1.0: 'Earth',
+      6.0: 'Concrete',
+      34.0: 'Pipe',
+      35.0: 'Pipe',
+      36.0: 'Pipe',
+      37.0: 'Pipe',
+      38.0: 'Mine',
+    }[value] ??
+    'Not mapped';

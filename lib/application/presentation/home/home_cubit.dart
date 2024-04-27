@@ -16,4 +16,7 @@ class HomeCubit extends CubitBase<HomeState> {
     final saveFile = SaveFileEntity.fromJson(json);
     emit(state.copyWith(saveFile: saveFile));
   }
+
+  void setHoveringCoordinates(final int x, final int y, final String element) =>
+      emit(state.copyWith(currentCoordinates: 'x: $x, y: $y, element: $element'));
 }
