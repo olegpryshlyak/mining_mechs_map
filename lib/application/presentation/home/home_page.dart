@@ -112,16 +112,8 @@ class TileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (event) => context.read<HomeCubit>().setHoveringCoordinates(x, y, valueToName(value)),
-      child: Container(
-        height: 2,
-        width: 2,
+      child: ColoredBox(
         color: valueToColor(value),
-        child: Center(
-          child: Text(
-            value.toString(),
-            style: context.theme.textTheme.labelSmall,
-          ),
-        ),
       ),
     );
   }
@@ -137,6 +129,7 @@ Color valueToColor(final double value) =>
       36.0: Colors.yellow, // pipe
       37.0: Colors.yellow, // pipe
       38.0: Colors.deepPurpleAccent, // mine
+      42.0: Colors.green,
     }[value] ??
     Colors.red;
 
@@ -150,5 +143,6 @@ String valueToName(final double value) =>
       36.0: 'Pipe',
       37.0: 'Pipe',
       38.0: 'Mine',
+      42.0: 'Generator',
     }[value] ??
     'Not mapped';
